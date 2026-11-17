@@ -9,10 +9,12 @@
           "item": "minecraft:cooked_beef",
           "loading_conditions": [
             {
-              "type": "neoforge:not",
+              "condition": "fabric:not",
               "value": {
-                "type": "neoforge:mod_loaded",
-                "modid": "farmersdelight"
+                "condition": "fabric:all_mods_loaded",
+                "values": [
+                  "farmersdelight"
+                ]
               }
             }
           ]
@@ -22,10 +24,12 @@
           "item": "minecraft:cooked_porkchop",
           "loading_conditions": [
             {
-              "type": "neoforge:not",
+              "condition": "fabric:not",
               "value": {
-                "type": "neoforge:mod_loaded",
-                "modid": "farmersdelight"
+                "condition": "fabric:all_mods_loaded",
+                "values": [
+                  "farmersdelight"
+                ]
               }
             }
           ]
@@ -35,10 +39,12 @@
           "item": "minecraft:cooked_salmon",
           "loading_conditions": [
             {
-              "type": "neoforge:not",
+              "condition": "fabric:not",
               "value": {
-                "type": "neoforge:mod_loaded",
-                "modid": "farmersdelight"
+                "condition": "fabric:all_mods_loaded",
+                "values": [
+                  "farmersdelight"
+                ]
               }
             }
           ]
@@ -48,10 +54,12 @@
           "item": "minecraft:cooked_cod",
           "loading_conditions": [
             {
-              "type": "neoforge:not",
+              "condition": "fabric:not",
               "value": {
-                "type": "neoforge:mod_loaded",
-                "modid": "farmersdelight"
+                "condition": "fabric:all_mods_loaded",
+                "values": [
+                  "farmersdelight"
+                ]
               }
             }
           ]
@@ -61,8 +69,10 @@
           "item": "farmersdelight:cooked_bacon",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ],
           "weight": 3
@@ -72,8 +82,10 @@
           "item": "farmersdelight:fried_egg",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ],
           "weight": 4
@@ -83,8 +95,10 @@
           "item": "farmersdelight:cooked_chicken_cuts",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ],
           "weight": 3
@@ -94,8 +108,10 @@
           "item": "farmersdelight:cooked_mutton_chops",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ],
           "weight": 2
@@ -105,8 +121,10 @@
           "item": "farmersdelight:cooked_cod_slice",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -115,8 +133,10 @@
           "item": "farmersdelight:cooked_salmon_slice",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         }

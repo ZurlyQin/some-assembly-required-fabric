@@ -41,8 +41,10 @@
           "item": "farmersdelight:cabbage_leaf",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ],
           "weight": 4

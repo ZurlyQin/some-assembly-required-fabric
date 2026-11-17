@@ -56,7 +56,7 @@ public class SetSandwichContentsFunction extends LootItemConditionalFunction {
         }
 
         SandwichContents contents = new SandwichContents(ingredients);
-        item.set(ModDataComponents.SANDWICH_CONTENTS, contents);
+        item.set(ModDataComponents.SANDWICH_CONTENTS.get(), contents);
 
         return item;
     }

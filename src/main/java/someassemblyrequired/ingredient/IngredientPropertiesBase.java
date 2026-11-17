@@ -23,10 +23,10 @@ public interface IngredientPropertiesBase {
         if (food().isPresent()) {
             return food().get();
         }
-        FoodProperties p = stack.getFoodProperties(entity);
+        FoodProperties p = stack.get(net.minecraft.core.component.DataComponents.FOOD);
         if (p != null) {
-            if (p.usingConvertsTo().isEmpty() && stack.hasCraftingRemainingItem()) {
-                ItemStack remainder = stack.getCraftingRemainingItem().copy();
+            if (p.usingConvertsTo().isEmpty() && !stack.getRecipeRemainder().isEmpty()) {
+                ItemStack remainder = stack.getRecipeRemainder().copy();
                 remainder.setCount(1);
                 return new FoodProperties(p.nutrition(), p.saturation(), p.canAlwaysEat(),
                         p.eatSeconds(), Optional.of(remainder), p.effects());

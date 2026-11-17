@@ -15,6 +15,8 @@ public class ModTags {
     public static final TagKey<Item> DOUGH = itemTag("c", "foods/dough");
     public static final TagKey<Item> DOUGHS = itemTag("c", "doughs");
 
+    public static final TagKey<Item> TOASTED_BREAD_SLICES = itemTag("toasted_bread_slices");
+
     // mod item tags
     public static final TagKey<Item> SANDWICH_BREAD = itemTag("sandwich_bread");
     public static final TagKey<Item> BURGER_BUNS = itemTag("burger_buns");

@@ -4,9 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
-import someassemblyrequired.integration.create.CreateCompat;
+import net.fabricmc.loader.api.FabricLoader;
 import someassemblyrequired.integration.farmersdelight.FarmersDelightCompat;
 import someassemblyrequired.item.sandwich.SandwichItem;
 import someassemblyrequired.registry.ModItems;
@@ -48,21 +46,16 @@ public class ModCompat {
             Potions.INFESTED
     );
 
-    public static void setup(IEventBus modEventBus) {
-        if (isFarmersDelightLoaded()) FarmersDelightCompat.setup(modEventBus);
-        if (isCreateLoaded()) CreateCompat.setup(modEventBus);
-    }
-
     public static boolean isFarmersDelightLoaded() {
         return isLoaded(FARMERSDELIGHT);
     }
 
     public static boolean isCreateLoaded() {
-        return isLoaded(CREATE);
+        return false;
     }
 
     private static boolean isLoaded(String modid) {
-        return ModList.get().isLoaded(modid);
+        return FabricLoader.getInstance().isModLoaded(modid);
     }
 
     public static void gatherCreativeTabSandwiches(Consumer<ItemStack> consumer) {
@@ -74,9 +67,6 @@ public class ModCompat {
     public static void gatherJEISandwiches(Consumer<ItemStack> consumer) {
         if (ModCompat.isFarmersDelightLoaded()) {
             FarmersDelightCompat.populateJEI(consumer);
-        }
-        if (ModCompat.isCreateLoaded()) {
-            CreateCompat.populateJEI(consumer);
         }
         EXAMPLE_POTIONS.stream().map(SandwichItem::makeSandwich).forEach(consumer);
         Stream.of(

@@ -1,0 +1,9 @@
+{
+  "values": [
+    "someassemblyrequired:toasted_bread_slice",
+    {
+      "id": "moredelight:toast",
+      "required": false
+    }
+  ]
+}

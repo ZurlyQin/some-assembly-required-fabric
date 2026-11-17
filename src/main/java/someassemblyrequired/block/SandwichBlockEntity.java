@@ -45,7 +45,7 @@ public class SandwichBlockEntity extends BlockEntity {
     }
 
     public InteractionResult useWithoutItem(Player player) {
-        if (level == null) {
+        if (level == null || level.isClientSide || contents.isEmpty()) {
             return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
 
@@ -73,8 +73,10 @@ public class SandwichBlockEntity extends BlockEntity {
             return ItemInteractionResult.CONSUME;
         }
 
+        if (level == null || level.isClientSide) return ItemInteractionResult.SUCCESS;
+
         List<ItemStack> itemsToAdd = new ArrayList<>();
-        if (useItem.is(ModItems.SANDWICH)) {
+        if (useItem.is(ModItems.SANDWICH.get())) {
             itemsToAdd.addAll(SandwichContents.get(useItem));
         } else {
             itemsToAdd.add(useItem);
@@ -121,6 +123,7 @@ public class SandwichBlockEntity extends BlockEntity {
                     BlockState newState = state.setValue(SandwichBlock.SIZE, SandwichBlock.getSizeFromSandwich(contents));
                     level.setBlockAndUpdate(getBlockPos(), newState);
                 }
+                level.sendBlockUpdated(getBlockPos(), state, level.getBlockState(getBlockPos()), 3);
                 setChanged();
             }
         }
@@ -154,10 +157,6 @@ public class SandwichBlockEntity extends BlockEntity {
         return saveCustomOnly(registries);
     }
 
-    @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
-        loadAdditional(tag, registries);
-    }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {

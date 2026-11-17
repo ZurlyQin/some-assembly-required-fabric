@@ -9,8 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 
 public class ChorusFruitBehavior implements IngredientBehavior {
 
@@ -29,9 +27,7 @@ public class ChorusFruitBehavior implements IngredientBehavior {
                     entity.stopRiding();
                 }
 
-                EntityTeleportEvent.ChorusFruit event = EventHooks.onChorusFruitTeleport(entity, x2, y2, z2);
-                if (event.isCanceled()) return;
-                if (entity.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true)) {
+                if (entity.randomTeleport(x2, y2, z2, true)) {
                     SoundEvent soundEvent = entity instanceof Fox ? SoundEvents.FOX_TELEPORT : SoundEvents.CHORUS_FRUIT_TELEPORT;
                     level.playSound(null, x1, y1, z1, soundEvent, SoundSource.PLAYERS, 1, 1);
                     entity.playSound(soundEvent, 1, 1);

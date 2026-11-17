@@ -33,7 +33,7 @@ public class PotionProperties implements IngredientPropertiesBase {
         PotionContents contents = item.get(DataComponents.POTION_CONTENTS);
         if (contents != null) {
             for (MobEffectInstance mobEffect : contents.getAllEffects()) {
-                builder.effect(() -> new MobEffectInstance(mobEffect), 1);
+                builder.effect(new MobEffectInstance(mobEffect), 1);
             }
         }
         builder.usingConvertsTo(Items.GLASS_BOTTLE);
@@ -46,7 +46,7 @@ public class PotionProperties implements IngredientPropertiesBase {
         PotionContents contents = item.get(DataComponents.POTION_CONTENTS);
         if (contents != null) {
             displayItem.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, !contents.is(Potions.WATER));
-            displayItem.set(ModDataComponents.SPREAD_COLOR, (contents.getColor() & 0xFFFFFF) | 0xCC000000);
+            displayItem.set(ModDataComponents.SPREAD_COLOR.get(), (contents.getColor() & 0xFFFFFF) | 0xCC000000);
         }
         return displayItem;
     }
@@ -96,6 +96,6 @@ public class PotionProperties implements IngredientPropertiesBase {
 
     @Override
     public Holder<SoundEvent> sound() {
-        return ModSoundEvents.ADD_ITEM_MOIST;
+        return net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.wrapAsHolder(ModSoundEvents.ADD_ITEM_MOIST.get());
     }
 }

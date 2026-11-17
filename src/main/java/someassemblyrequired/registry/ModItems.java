@@ -7,8 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.function.Supplier;
+
 import someassemblyrequired.SomeAssemblyRequired;
 import someassemblyrequired.integration.ModCompat;
 import someassemblyrequired.item.sandwich.SandwichContents;
@@ -17,10 +17,10 @@ import someassemblyrequired.item.sandwich.SandwichItem;
 @SuppressWarnings("unused")
 public class ModItems {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, SomeAssemblyRequired.MOD_ID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SomeAssemblyRequired.MOD_ID);
+    public static final FabricRegister<Item> ITEMS = FabricRegister.create(Registries.ITEM, SomeAssemblyRequired.MOD_ID);
+    public static final FabricRegister<CreativeModeTab> CREATIVE_MODE_TABS = FabricRegister.create(Registries.CREATIVE_MODE_TAB, SomeAssemblyRequired.MOD_ID);
 
-    public static DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("main", () -> CreativeModeTab.builder()
+    public static Supplier<CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("main", () -> net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup.builder()
             .icon(ModItems::makeIcon)
             .title(Component.translatable("%s.creative_tab".formatted(SomeAssemblyRequired.MOD_ID)))
             .displayItems(ModItems::fillCreativeTab)
@@ -46,26 +46,26 @@ public class ModItems {
     }
 
     // sandwich assembly tables
-    public static final DeferredHolder<Item, Item> SANDWICHING_STATION = ITEMS.register("sandwiching_station", () -> createBlockItem(ModBlocks.SANDWICHING_STATION.get()));
+    public static final Supplier<Item> SANDWICHING_STATION = ITEMS.register("sandwiching_station", () -> createBlockItem(ModBlocks.SANDWICHING_STATION.get()));
     // foods
-    public static final DeferredHolder<Item, Item> BREAD_SLICE = ITEMS.register("bread_slice", () -> createFoodItem(ModFoods.BREAD_SLICE));
-    public static final DeferredHolder<Item, Item> TOASTED_BREAD_SLICE = ITEMS.register("toasted_bread_slice", () -> createFoodItem(ModFoods.TOASTED_BREAD_SLICE));
-    public static final DeferredHolder<Item, Item> RAW_BURGER_BUN = ITEMS.register("raw_burger_bun", () -> createFoodItem(ModFoods.RAW_BURGER_BUN));
-    public static final DeferredHolder<Item, Item> BURGER_BUN = ITEMS.register("burger_bun", () -> createFoodItem(ModFoods.BURGER_BUN));
-    public static final DeferredHolder<Item, Item> BURGER_BUN_BOTTOM = ITEMS.register("burger_bun_bottom", () -> createFoodItem(ModFoods.BURGER_BUN_BOTTOM));
-    public static final DeferredHolder<Item, Item> BURGER_BUN_TOP = ITEMS.register("burger_bun_top", () -> createFoodItem(ModFoods.BURGER_BUN_TOP));
-    public static final DeferredHolder<Item, Item> APPLE_SLICES = ITEMS.register("apple_slices", () -> createFoodItem(ModFoods.APPLE_SLICES));
-    public static final DeferredHolder<Item, Item> GOLDEN_APPLE_SLICES = ITEMS.register("golden_apple_slices", () -> new Item(new Item.Properties().food(ModFoods.GOLDEN_APPLE_SLICES).rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, Item> ENCHANTED_GOLDEN_APPLE_SLICES = ITEMS.register("enchanted_golden_apple_slices", () -> new Item(new Item.Properties().food(ModFoods.ENCHANTED_GOLDEN_APPLE_SLICES).component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true).rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, Item> CHOPPED_CARROT = ITEMS.register("chopped_carrot", () -> createFoodItem(ModFoods.CHOPPED_CARROT));
-    public static final DeferredHolder<Item, Item> CHOPPED_GOLDEN_CARROT = ITEMS.register("chopped_golden_carrot", () -> createFoodItem(ModFoods.CHOPPED_GOLDEN_CARROT));
-    public static final DeferredHolder<Item, Item> CHOPPED_BEETROOT = ITEMS.register("chopped_beetroot", () -> createFoodItem(ModFoods.CHOPPED_BEETROOT));
-    public static final DeferredHolder<Item, Item> TOMATO_SLICES = ITEMS.register("tomato_slices", () -> createFoodItem(ModFoods.TOMATO_SLICES));
-    public static final DeferredHolder<Item, Item> SLICED_ONION = ITEMS.register("sliced_onion", () -> createFoodItem(ModFoods.SLICED_ONION));
+    public static final Supplier<Item> BREAD_SLICE = ITEMS.register("bread_slice", () -> createFoodItem(ModFoods.BREAD_SLICE));
+    public static final Supplier<Item> TOASTED_BREAD_SLICE = ITEMS.register("toasted_bread_slice", () -> createFoodItem(ModFoods.TOASTED_BREAD_SLICE));
+    public static final Supplier<Item> RAW_BURGER_BUN = ITEMS.register("raw_burger_bun", () -> createFoodItem(ModFoods.RAW_BURGER_BUN));
+    public static final Supplier<Item> BURGER_BUN = ITEMS.register("burger_bun", () -> createFoodItem(ModFoods.BURGER_BUN));
+    public static final Supplier<Item> BURGER_BUN_BOTTOM = ITEMS.register("burger_bun_bottom", () -> createFoodItem(ModFoods.BURGER_BUN_BOTTOM));
+    public static final Supplier<Item> BURGER_BUN_TOP = ITEMS.register("burger_bun_top", () -> createFoodItem(ModFoods.BURGER_BUN_TOP));
+    public static final Supplier<Item> APPLE_SLICES = ITEMS.register("apple_slices", () -> createFoodItem(ModFoods.APPLE_SLICES));
+    public static final Supplier<Item> GOLDEN_APPLE_SLICES = ITEMS.register("golden_apple_slices", () -> new Item(new Item.Properties().food(ModFoods.GOLDEN_APPLE_SLICES).rarity(Rarity.RARE)));
+    public static final Supplier<Item> ENCHANTED_GOLDEN_APPLE_SLICES = ITEMS.register("enchanted_golden_apple_slices", () -> new Item(new Item.Properties().food(ModFoods.ENCHANTED_GOLDEN_APPLE_SLICES).component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true).rarity(Rarity.EPIC)));
+    public static final Supplier<Item> CHOPPED_CARROT = ITEMS.register("chopped_carrot", () -> createFoodItem(ModFoods.CHOPPED_CARROT));
+    public static final Supplier<Item> CHOPPED_GOLDEN_CARROT = ITEMS.register("chopped_golden_carrot", () -> createFoodItem(ModFoods.CHOPPED_GOLDEN_CARROT));
+    public static final Supplier<Item> CHOPPED_BEETROOT = ITEMS.register("chopped_beetroot", () -> createFoodItem(ModFoods.CHOPPED_BEETROOT));
+    public static final Supplier<Item> TOMATO_SLICES = ITEMS.register("tomato_slices", () -> createFoodItem(ModFoods.TOMATO_SLICES));
+    public static final Supplier<Item> SLICED_ONION = ITEMS.register("sliced_onion", () -> createFoodItem(ModFoods.SLICED_ONION));
 
     // misc items
-    public static final DeferredHolder<Item, SandwichItem> SANDWICH = ITEMS.register("sandwich", () -> new SandwichItem(ModBlocks.SANDWICH.get(), new Item.Properties().stacksTo(16).component(ModDataComponents.SANDWICH_CONTENTS, SandwichContents.EMPTY).food(new FoodProperties.Builder().build())));
-    public static final DeferredHolder<Item, Item> SPREAD = ITEMS.register("spread", () -> new Item(new Item.Properties().component(ModDataComponents.SPREAD_COLOR.get(), 0xFFFFFFFF)));
+    public static final Supplier<SandwichItem> SANDWICH = ITEMS.register("sandwich", () -> new SandwichItem(ModBlocks.SANDWICH.get(), new Item.Properties().stacksTo(16).component(ModDataComponents.SANDWICH_CONTENTS.get(), SandwichContents.EMPTY).food(new FoodProperties.Builder().build())));
+    public static final Supplier<Item> SPREAD = ITEMS.register("spread", () -> new Item(new Item.Properties().component(ModDataComponents.SPREAD_COLOR.get(), 0xFFFFFFFF)));
 
     private static Item createBlockItem(Block block) {
         return new BlockItem(block, new Item.Properties());

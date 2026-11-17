@@ -7,15 +7,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.Nullable;
 import someassemblyrequired.SomeAssemblyRequired;
 import someassemblyrequired.ingredient.IngredientProperties;
 import someassemblyrequired.ingredient.IngredientPropertiesBase;
 import someassemblyrequired.ingredient.PotionProperties;
-import someassemblyrequired.network.UpdateIngredientsPacket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,23 +24,10 @@ public class ModIngredients {
 
     private static final IngredientPropertiesBase DEFAULT_PROPERTIES = new IngredientProperties(
             null, Optional.empty(), Optional.empty(), Optional.empty(),
-            ItemStack.EMPTY, ModSoundEvents.ADD_ITEM, 1, true, false
+            ItemStack.EMPTY, net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.wrapAsHolder(ModSoundEvents.ADD_ITEM.get()), 1, true, false
     );
 
     private static final Map<Item, IngredientPropertiesBase> PROPERTIES = new HashMap<>();
-
-    public static void onDataPackSync(OnDatapackSyncEvent event) {
-        if (event.getPlayer() == null) {
-            if (ServerLifecycleHooks.getCurrentServer() != null) {
-                ServerLifecycleHooks.getCurrentServer()
-                        .registryAccess()
-                        .registry(ModIngredients.INGREDIENTS)
-                        .map(Registry::asLookup)
-                        .ifPresent(ModIngredients::refresh);
-            }
-        }
-        event.getRelevantPlayers().forEach(player -> PacketDistributor.sendToPlayer(player, UpdateIngredientsPacket.INSTANCE));
-    }
 
     public static void refresh(HolderLookup.RegistryLookup<IngredientProperties> registry) {
         PROPERTIES.clear();

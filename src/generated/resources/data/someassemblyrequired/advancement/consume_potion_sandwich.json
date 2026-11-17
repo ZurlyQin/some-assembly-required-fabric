@@ -12,10 +12,7 @@
                   {
                     "items": "minecraft:potion",
                     "predicates": {
-                      "minecraft:potion_contents": {
-                        "type": "neoforge:not",
-                        "value": "minecraft:water"
-                      }
+                      "minecraft:potion_contents": "#someassemblyrequired:non_water"
                     }
                   }
                 ]

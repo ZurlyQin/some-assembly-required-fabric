@@ -38,11 +38,11 @@ public final class SandwichContents extends AbstractList<ItemStack> {
     }
 
     public static SandwichContents get(ItemStack stack) {
-        return stack.getOrDefault(ModDataComponents.SANDWICH_CONTENTS, EMPTY);
+        return stack.getOrDefault(ModDataComponents.SANDWICH_CONTENTS.get(), EMPTY);
     }
 
     public static Optional<SandwichContents> maybeGet(ItemStack stack) {
-        return Optional.ofNullable(stack.get(ModDataComponents.SANDWICH_CONTENTS));
+        return Optional.ofNullable(stack.get(ModDataComponents.SANDWICH_CONTENTS.get()));
     }
 
     public SandwichContents dropLast() {
@@ -119,7 +119,7 @@ public final class SandwichContents extends AbstractList<ItemStack> {
 
     public FoodProperties createFoodProperties(@Nullable LivingEntity entity) {
         int nutrition = nutrition(entity);
-        float saturationModifier = 0.5F * saturation(entity) / nutrition;
+        float saturationModifier = nutrition == 0 ? 0 : 0.5F * saturation(entity) / nutrition;
         FoodProperties.Builder builder = new FoodProperties.Builder()
                 .nutrition(nutrition)
                 .saturationModifier(saturationModifier);
@@ -141,7 +141,7 @@ public final class SandwichContents extends AbstractList<ItemStack> {
                 effects.putIfAbsent(effect.effect(), effect.probability());
             }
         }
-        effects.forEach((instance, p) -> builder.effect(() -> new MobEffectInstance(instance), p));
+        effects.forEach((instance, p) -> builder.effect(new MobEffectInstance(instance), p));
 
         return builder.build();
     }

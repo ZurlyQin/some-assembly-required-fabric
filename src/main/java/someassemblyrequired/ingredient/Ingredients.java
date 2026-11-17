@@ -39,7 +39,7 @@ public class Ingredients {
 
     @SuppressWarnings("ConstantConditions")
     public static boolean canAddToSandwich(ItemStack item) {
-        return !item.isEmpty() && (item.getFoodProperties(null) != null || ModIngredients.get(item) != null && !ModIngredients.get(item).hidden());
+        return !item.isEmpty() && (item.get(net.minecraft.core.component.DataComponents.FOOD) != null || ModIngredients.get(item) != null && !ModIngredients.get(item).hidden());
     }
 
     public static @NotNull FoodProperties getFood(ItemStack item, @Nullable LivingEntity entity) {

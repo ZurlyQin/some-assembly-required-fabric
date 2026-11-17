@@ -30,8 +30,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+
+
 import org.jetbrains.annotations.Nullable;
 import someassemblyrequired.SomeAssemblyRequired;
 import someassemblyrequired.block.SandwichBlock;
@@ -121,13 +121,12 @@ public class SandwichItem extends BlockItem {
         return result;
     }
 
-    @Override
     public FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
         return stack.getOrDefault(ModDataComponents.SANDWICH_CONTENTS.get(), SandwichContents.EMPTY).createFoodProperties(entity);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
         SandwichContents sandwich = SandwichContents.get(stack);
@@ -208,9 +207,9 @@ public class SandwichItem extends BlockItem {
         }
 
         level.gameEvent(player, GameEvent.BLOCK_PLACE, pos);
-        SoundType soundType = placedState.getSoundType(level, pos, player);
+        SoundType soundType = placedState.getSoundType();
         if (player != null) {
-            level.playSound(player, pos, getPlaceSound(placedState, level, pos, player), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+            level.playSound(player, pos, getPlaceSound(placedState), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
         }
         if (player == null || !player.getAbilities().instabuild) {
             sandwich.shrink(1);

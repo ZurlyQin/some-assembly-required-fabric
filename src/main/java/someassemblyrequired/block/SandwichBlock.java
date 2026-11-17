@@ -31,7 +31,7 @@ import someassemblyrequired.registry.ModBlockEntityTypes;
 import someassemblyrequired.registry.ModDataComponents;
 import someassemblyrequired.registry.ModTags;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,13 +119,8 @@ public class SandwichBlock extends Block implements EntityBlock, SimpleWaterlogg
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        ItemStack result = super.getCloneItemStack(state, target, level, pos, player);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity != null) {
-            blockEntity.saveToItem(result, level.registryAccess());
-        }
-        return result;
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+        return level.getBlockEntity(pos) instanceof SandwichBlockEntity sandwich ? sandwich.getContents().makeItem() : ItemStack.EMPTY;
     }
 
     @Override

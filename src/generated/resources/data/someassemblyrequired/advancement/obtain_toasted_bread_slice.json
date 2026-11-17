@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "someassemblyrequired:toasted_bread_slice"
+            "items": "#someassemblyrequired:toasted_bread_slices"
           }
         ]
       },

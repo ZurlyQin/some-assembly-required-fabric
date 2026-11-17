@@ -36,8 +36,10 @@
           "item": "farmersdelight:squid_ink_pasta",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -46,8 +48,10 @@
           "item": "farmersdelight:egg_sandwich",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -56,8 +60,10 @@
           "item": "farmersdelight:hot_cocoa",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -66,8 +72,10 @@
           "item": "farmersdelight:pumpkin_soup",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -76,8 +84,10 @@
           "item": "farmersdelight:pasta_with_meatballs",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -86,8 +96,10 @@
           "item": "farmersdelight:ratatouille",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "farmersdelight"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "farmersdelight"
+              ]
             }
           ]
         },
@@ -96,8 +108,10 @@
           "item": "create:chocolate_bucket",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "create"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "create"
+              ]
             }
           ],
           "weight": 15
@@ -107,8 +121,10 @@
           "item": "create:builders_tea",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "create"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "create"
+              ]
             }
           ]
         },
@@ -117,8 +133,10 @@
           "item": "create:chocolate_glazed_berries",
           "loading_conditions": [
             {
-              "type": "neoforge:mod_loaded",
-              "modid": "create"
+              "condition": "fabric:all_mods_loaded",
+              "values": [
+                "create"
+              ]
             }
           ]
         }

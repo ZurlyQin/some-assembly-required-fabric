@@ -9,9 +9,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.TriState;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import someassemblyrequired.SomeAssemblyRequired;
 import someassemblyrequired.block.SandwichBlockEntity;
 import someassemblyrequired.ingredient.Ingredients;
@@ -22,22 +19,14 @@ import someassemblyrequired.registry.ModTags;
 public class BlockEventHandler {
 
     public static void register() {
-        NeoForge.EVENT_BUS.addListener(BlockEventHandler::onRightClickBlock);
+        net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register(BlockEventHandler::onRightClickBlock);
     }
-
-    private static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (event.isCanceled() || event.getUseBlock() != TriState.DEFAULT || event.getUseItem() != TriState.DEFAULT) {
-            return;
-        }
-
-        BlockPos pos = event.getHitVec().getBlockPos();
-        Level level = event.getLevel();
+    private static InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (player.isSpectator() || !level.mayInteract(player, hitResult.getBlockPos())) return InteractionResult.PASS;
+        BlockPos pos = hitResult.getBlockPos();
         BlockState state = level.getBlockState(pos);
-        Player player = event.getEntity();
-        InteractionHand hand = event.getHand();
-
         if (player.isShiftKeyDown()) {
-            return;
+            return InteractionResult.PASS;
         }
 
         if (state.is(ModTags.SANDWICHING_STATIONS)) {
@@ -51,21 +40,18 @@ public class BlockEventHandler {
                     result = InteractionResult.PASS;
                 }
             } else {
-                result = tryPlaceSandwich(event);
+                result = tryPlaceSandwich(player, hand, hitResult);
             }
 
             if (result != InteractionResult.PASS) {
-                event.setCanceled(true);
-                event.setCancellationResult(result);
+                return result;
             }
         }
+        return InteractionResult.PASS;
     }
 
-    private static InteractionResult tryPlaceSandwich(PlayerInteractEvent.RightClickBlock event) {
-        ItemStack heldItem = event.getItemStack().copy();
-        Player player = event.getEntity();
-        InteractionHand hand = event.getHand();
-        BlockHitResult hitResult = event.getHitVec();
+    private static InteractionResult tryPlaceSandwich(Player player, InteractionHand hand, BlockHitResult hitResult) {
+        ItemStack heldItem = player.getItemInHand(hand).copy();
         BlockPos pos = hitResult.getBlockPos();
         heldItem.setCount(1);
 

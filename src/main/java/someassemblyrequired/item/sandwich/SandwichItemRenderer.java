@@ -66,12 +66,18 @@ public class SandwichItemRenderer extends BlockEntityWithoutLevelRenderer {
             }
             ItemStack displayStack = Ingredients.getDisplayItem(stack);
 
-            boolean isGui3d = Minecraft.getInstance().getItemRenderer().getModel(stack, null, null, (int) seed + slot).isGui3d();
-            if (!Ingredients.shouldRenderAsItem(stack) || isGui3d) {
+            // Orient the model actually being rendered. A resource pack may make the source
+            // bottle/bucket 3D while its replacement spread is still a flat ingredient layer.
+            boolean isGui3d = Minecraft.getInstance().getItemRenderer().getModel(displayStack, null, null, (int) seed + slot).isGui3d();
+            boolean renderAsItem = Ingredients.shouldRenderAsItem(stack);
+            boolean customIngredientModel = !renderAsItem && !ItemStack.isSameItemSameComponents(stack, displayStack);
+            if (!renderAsItem || isGui3d) {
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
                 poseStack.mulPose(Axis.XP.rotationDegrees(-90));
                 poseStack.translate(0, 0.5 - 1 / 32D, 0);
-                if (isGui3d) {
+                // Custom ingredient geometry is authored from y=0. Only ordinary item
+                // models need the centering correction (e.g. a gold block at FIXED scale).
+                if (isGui3d && !customIngredientModel) {
                     poseStack.translate(0, -4 / 16D, 0);
                 }
             }

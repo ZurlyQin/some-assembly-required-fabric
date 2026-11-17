@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "someassemblyrequired-test",
+  "version": "1.0.0",
+  "name": "Some Assembly Required GameTests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "someassemblyrequired.test.SandwichGameTests"
+    ],
+    "client": [
+      "someassemblyrequired.test.ClientRenderSmoke"
+    ]
+  }
+}

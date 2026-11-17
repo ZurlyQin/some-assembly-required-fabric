@@ -1,50 +1,18 @@
 package someassemblyrequired;
-
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import someassemblyrequired.block.SandwichBlockRenderer;
-import someassemblyrequired.config.ModConfig;
 import someassemblyrequired.item.sandwich.SandwichItemRenderer;
-import someassemblyrequired.registry.ModBlockEntityTypes;
-import someassemblyrequired.registry.ModDataComponents;
-import someassemblyrequired.registry.ModItems;
-
-public class SomeAssemblyRequiredClient {
-
-    public SomeAssemblyRequiredClient(IEventBus modEventBus, ModContainer container) {
-        modEventBus.addListener(this::onClientSetup);
-        modEventBus.addListener(this::onRegisterColorHandlers);
-        modEventBus.addListener(this::onRegisterClientExtensions);
-        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT, ModConfig.clientSpec);
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> BlockEntityRenderers.register(ModBlockEntityTypes.SANDWICH.get(), SandwichBlockRenderer::new));
-    }
-
-    public void onRegisterColorHandlers(RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> {
-            int color = stack.getOrDefault(ModDataComponents.SPREAD_COLOR, 0xFFFFFFFF);
-            return tintIndex == 0 ? color : 0xFFFFFFFF;
-        }, ModItems.SPREAD.get());
-    }
-
-    public void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(new IClientItemExtensions() {
-
-            private final BlockEntityWithoutLevelRenderer renderer = new SandwichItemRenderer();
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return renderer;
-            }
-
-        }, ModItems.SANDWICH.get());
+import someassemblyrequired.registry.*;
+public class SomeAssemblyRequiredClient implements ClientModInitializer {
+    @Override public void onInitializeClient() {
+        net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(someassemblyrequired.network.ConfigSyncPacket.TYPE,
+            (packet, context) -> someassemblyrequired.config.ModConfig.applyServer(packet.json()));
+        net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> someassemblyrequired.config.ModConfig.load());
+        BlockEntityRendererRegistry.register(ModBlockEntityTypes.SANDWICH.get(), SandwichBlockRenderer::new);
+        ColorProviderRegistry.ITEM.register((stack, index) -> index == 0 ? stack.getOrDefault(ModDataComponents.SPREAD_COLOR.get(), 0xFFFFFFFF) : 0xFFFFFFFF, ModItems.SPREAD.get());
+        BuiltinItemRendererRegistry.INSTANCE.register(ModItems.SANDWICH.get(), new SandwichItemRenderer()::renderByItem);
     }
 }

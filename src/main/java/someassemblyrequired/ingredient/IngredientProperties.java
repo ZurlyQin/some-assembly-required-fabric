@@ -34,7 +34,7 @@ public record IngredientProperties(
             ComponentSerialization.CODEC.optionalFieldOf("display_name").forGetter(IngredientProperties::displayName),
             ComponentSerialization.CODEC.optionalFieldOf("full_name").forGetter(IngredientProperties::fullName),
             ItemStack.CODEC.optionalFieldOf("display_item", ItemStack.EMPTY).forGetter(IngredientProperties::displayItem),
-            BuiltInRegistries.SOUND_EVENT.holderByNameCodec().optionalFieldOf("sound", ModSoundEvents.ADD_ITEM).forGetter(IngredientProperties::sound),
+            BuiltInRegistries.SOUND_EVENT.holderByNameCodec().optionalFieldOf("sound", net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.wrapAsHolder(ModSoundEvents.ADD_ITEM.get())).forGetter(IngredientProperties::sound),
             ExtraCodecs.intRange(1, 32).optionalFieldOf("height", 1).forGetter(IngredientProperties::height),
             Codec.BOOL.optionalFieldOf("render_as_item", true).forGetter(IngredientProperties::renderAsItem),
             Codec.BOOL.optionalFieldOf("hidden", false).forGetter(IngredientProperties::hidden)

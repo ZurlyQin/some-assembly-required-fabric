@@ -12,8 +12,9 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+
 import someassemblyrequired.registry.ModLootPoolEntries;
 
 import java.util.Arrays;
@@ -23,15 +24,15 @@ import java.util.function.Consumer;
 public class OptionalLootItem extends LootPoolSingletonContainer {
 
     private final ResourceLocation item;
-    private final List<ICondition> loadingConditions;
+    private final List<ResourceCondition> loadingConditions;
 
     public static final MapCodec<OptionalLootItem> CODEC = RecordCodecBuilder.mapCodec(instance ->
             singletonFields(instance)
                     .and(ResourceLocation.CODEC.fieldOf("item").forGetter(OptionalLootItem::item))
-                    .and(ICondition.LIST_CODEC.fieldOf("loading_conditions").forGetter(OptionalLootItem::loadingConditions))
+                    .and(ResourceCondition.CODEC.listOf().fieldOf("loading_conditions").forGetter(OptionalLootItem::loadingConditions))
                     .apply(instance, OptionalLootItem::new));
 
-    public OptionalLootItem(int weight, int quality, List<LootItemCondition> conditions, List<LootItemFunction> functions, ResourceLocation item, List<ICondition> loadingConditions) {
+    public OptionalLootItem(int weight, int quality, List<LootItemCondition> conditions, List<LootItemFunction> functions, ResourceLocation item, List<ResourceCondition> loadingConditions) {
         super(weight, quality, conditions, functions);
         this.item = item;
         this.loadingConditions = loadingConditions;
@@ -41,7 +42,7 @@ public class OptionalLootItem extends LootPoolSingletonContainer {
         return item;
     }
 
-    private List<ICondition> loadingConditions() {
+    private List<ResourceCondition> loadingConditions() {
         return loadingConditions;
     }
 
@@ -62,9 +63,9 @@ public class OptionalLootItem extends LootPoolSingletonContainer {
         return true;
     }
 
-    public static boolean testConditions(List<ICondition> conditions) {
-        for (ICondition condition : conditions) {
-            if (!condition.test(ICondition.IContext.EMPTY)) {
+    public static boolean testConditions(List<ResourceCondition> conditions) {
+        for (ResourceCondition condition : conditions) {
+            if (!condition.test(null)) {
                 return false;
             }
         }
@@ -80,10 +81,10 @@ public class OptionalLootItem extends LootPoolSingletonContainer {
     }
 
     public static LootPoolSingletonContainer.Builder<?> whenLoaded(ResourceLocation item) {
-        return optionalLootItem(item, new ModLoadedCondition(item.getNamespace()));
+        return optionalLootItem(item, ResourceConditions.allModsLoaded(item.getNamespace()));
     }
 
-    public static LootPoolSingletonContainer.Builder<?> optionalLootItem(ResourceLocation item, ICondition... loadingConditions) {
+    public static LootPoolSingletonContainer.Builder<?> optionalLootItem(ResourceLocation item, ResourceCondition... loadingConditions) {
         return simpleBuilder((weight, quality, conditions, functions) -> new OptionalLootItem(weight, quality, conditions, functions, item, Arrays.asList(loadingConditions)));
     }
 }

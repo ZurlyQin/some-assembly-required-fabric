@@ -5,6 +5,9 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        moreDelight: [false, true]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,4 +25,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -PwithMoreDelight=${{ matrix.moreDelight }}

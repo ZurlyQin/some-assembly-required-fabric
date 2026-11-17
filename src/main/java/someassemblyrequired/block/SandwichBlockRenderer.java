@@ -11,14 +11,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import someassemblyrequired.item.sandwich.SandwichContents;
 import someassemblyrequired.item.sandwich.SandwichItemRenderer;
 
-public class SandwichBlockRenderer implements BlockEntityRenderer<BlockEntity> {
+public class SandwichBlockRenderer implements BlockEntityRenderer<SandwichBlockEntity> {
 
     @SuppressWarnings("unused")
     public SandwichBlockRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     @Override
-    public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int overlay) {
+    public void render(SandwichBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int overlay) {
         poseStack.pushPose();
         poseStack.translate(0.5, 1 / 64D, 0.5);
         poseStack.scale(0.5F, 0.5F, 0.5F);
@@ -28,8 +28,8 @@ public class SandwichBlockRenderer implements BlockEntityRenderer<BlockEntity> {
                 poseStack.mulPose(Axis.YP.rotationDegrees(180 - state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
             }
         }
-        if (blockEntity instanceof SandwichBlockEntity sandwichBlockEntity) {
-            SandwichContents sandwich = sandwichBlockEntity.getContents();
+        {
+            SandwichContents sandwich = blockEntity.getContents();
             SandwichItemRenderer.renderSandwich(sandwich, poseStack, buffer, packedLight, overlay, blockEntity.getBlockPos().asLong());
         }
         poseStack.popPose();

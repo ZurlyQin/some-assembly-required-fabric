@@ -12,7 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.neoforged.fml.loading.FMLEnvironment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.api.EnvType;
 import someassemblyrequired.SomeAssemblyRequired;
 import someassemblyrequired.ingredient.Ingredients;
 import someassemblyrequired.registry.ModItems;
@@ -48,7 +49,7 @@ public class SandwichNameHelper {
         List<ItemStack> potions = uniqueIngredients.stream().filter(item -> item.is(Items.POTION)).toList();
         // potion sandwich
         if (potions.size() == 1) {
-            if (FMLEnvironment.dist.isDedicatedServer()) {
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
                 return translate("base", "sandwich");
             }
             return getPotionSandwichName(potions.getFirst(), sandwichType);
@@ -98,9 +99,9 @@ public class SandwichNameHelper {
 
     private static Component getBreadSandwichName(SandwichContents contents, String sandwichType) {
         if ((contents.size() == 3)
-                && contents.getFirst().getItem() != ModItems.TOASTED_BREAD_SLICE.get()
-                && contents.get(1).getItem() == ModItems.TOASTED_BREAD_SLICE.get()
-                && contents.get(2).getItem() != ModItems.TOASTED_BREAD_SLICE.get()) {
+                && !contents.getFirst().is(ModTags.TOASTED_BREAD_SLICES)
+                && contents.get(1).is(ModTags.TOASTED_BREAD_SLICES)
+                && !contents.get(2).is(ModTags.TOASTED_BREAD_SLICES)) {
             return translateWithArg("base", "with_ingredients", sandwichType, Ingredients.getDisplayName(contents.get(1)));
         }
         return translate("only_bread", sandwichType);
